@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package subscribe;
+
+service SubscribeService {
+    rpc Subscribe(ChannelType) returns (Message);
+    rpc Unsubscribe(ChannelType) returns (Message);
+    rpc ListSubscribers(Empty) returns (ReturnList);
+}
+
+enum QueueType {
+    SIMPLES = 0;
+    MULTIPLO = 1;
+}
+
+message ChannelType {
+    string channelName = 1;
+    QueueType channelType = 2;
+    string clientName = 3;
+}
+
+message Message {
+    string content = 1;
+}
+
+message ReturnList {
+    string assinantes = 1;
+}
+
+message Empty {}

@@ -1,0 +1,80 @@
+plugins {
+    id 'java'
+    id 'com.google.protobuf' version '0.9.1'
+    id 'application'
+}
+
+group 'proj'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = '1.8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.grpc:grpc-netty-shaded:1.47.0'
+    implementation 'io.grpc:grpc-protobuf:1.47.0'
+    implementation 'io.grpc:grpc-stub:1.47.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'com.google.protobuf:protobuf-java:3.21.1'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    implementation 'io.grpc:grpc-services:1.47.0'
+    implementation 'org.json:json:20230227'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+    testImplementation 'org.mockito:mockito-core:5.3.1'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.3.1'
+    testImplementation 'org.mockito:mockito-inline:5.1.1' 
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.21.1'
+    }
+    plugins {
+        grpc {
+            artifact = 'io.grpc:protoc-gen-grpc-java:1.65.1'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.plugins {
+                grpc {}
+            }
+            task.builtins {
+                java {}
+            }
+            task.outputs.upToDateWhen { false }
+        }
+    }
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/main/proto'
+        }
+        java {
+            srcDirs 'build/generated/source/proto/main/java', 'build/generated/source/proto/main/grpc'
+        }
+    }
+}
+
+// Define a command line argument to select between server and client
+def mainClassArg = project.hasProperty('mainClass') ? project.mainClass : 'server'
+
+if (mainClassArg == 'server') {
+    application {
+        mainClass.set('proj.MessagingServiceServer')
+    }
+} else if (mainClassArg == 'client01') {
+    application {
+        mainClass.set('proj.Client.MessagingSubscribeClient')
+    }
+}
+
+tasks.processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}

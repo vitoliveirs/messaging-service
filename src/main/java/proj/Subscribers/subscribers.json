@@ -1,0 +1,32 @@
+[
+  {
+    "clientName": "JavaClient",
+    "channelName": "TestChannelSIMP",
+    "channelType": "SIMPLES"
+  },
+  {
+    "clientName": "",
+    "channelName": "ExampleSIMP",
+    "channelType": "SIMPLES"
+  },
+  {
+    "clientName": "",
+    "channelName": "ExampleChannelMULT",
+    "channelType": "MULTIPLO"
+  },
+  {
+    "clientName": "JavaClient",
+    "channelName": "TestChannelCLIENT01",
+    "channelType": "SIMPLES"
+  },
+  {
+    "clientName": "JavaClient",
+    "channelName": "ExampleChannelMULT",
+    "channelType": "MULTIPLO"
+  },
+  {
+    "clientName": "",
+    "channelName": "ExampleSsssIMP",
+    "channelType": "SIMPLES"
+  }
+]

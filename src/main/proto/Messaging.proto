@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package messaging;
+
+service MessagingService {
+    rpc NewChannel(ChannelName) returns (Message);
+    rpc DeleteChannel(QueueName) returns(Message);
+    rpc ListChannels(Empty) returns (ChannelList);
+    rpc SendOneMessage(MessageRequest) returns (MessageResponse);
+    rpc SendMultipleMessages(MessageList) returns (MessageResponse);
+    rpc ReceiveMessages(QueueName) returns (stream Message);
+    rpc ReceiveSingleMessage(QueueName) returns (Message); 
+    rpc StreamMessages(QueueName) returns (stream Message); 
+}
+
+enum QueueType {
+    SIMPLES = 0;
+    MULTIPLO = 1;
+}
+
+message Channel {
+    string name = 1;
+    string type = 2;
+    string pendingMessages = 3;
+}
+
+message ChannelList {
+    repeated Channel canais = 1;
+}
+
+message QueueName {
+    string name = 1;
+    QueueType type = 2;
+}
+
+message ChannelName {
+    QueueType type = 1;
+    string content = 2;
+}
+
+message MessageRequest {
+    string channel = 1;
+    string message = 2;
+}
+
+message MessageResponse {
+    string response = 1;
+    string content = 2;
+}
+
+message Message {
+    string content = 1;
+}
+
+message MessageList {
+    repeated Message messages = 1;
+    string ChannelName = 2;
+    QueueType type = 3;
+}
+
+message Empty {}
